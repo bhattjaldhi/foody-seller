@@ -48,7 +48,7 @@ export default {
         if (!response.user.notification_key) {
         }
         fcmBus.$emit('register-token', response)
-        // this.$router.replace({ name: "home" });
+        this.$router.replace({ name: "home" });
       } catch (error) {
         console.error(error);
       } finally {
