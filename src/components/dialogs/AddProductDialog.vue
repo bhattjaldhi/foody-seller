@@ -56,7 +56,6 @@ export default {
 
     async saveProduct() {
       try {
-        let user = this.$store.state.auth.user;
 
         this.$q.loading.show();
 
@@ -73,6 +72,9 @@ export default {
       }
     },
     async createProduct() {
+
+        let user = this.$store.state.auth.user;
+      
       let product = new Product({});
       product.name = this.input.name;
       product.price = parseInt(this.input.price);
