@@ -1,7 +1,4 @@
 import axios from 'src/services/axios'
-import {
-  config as ApiConfig
-} from '..'
 
 export default (store) => {
   return {
@@ -10,7 +7,7 @@ export default (store) => {
       return axios.post('/login', data).then(
         response => {
           this.$store.commit('login', response.data)
-          return response
+          return response.data
         }
       ).catch(error => {
         throw error

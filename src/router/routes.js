@@ -13,9 +13,10 @@ const routes = [{
       name: 'categories',
       component: () => import('pages/Seller/Category.vue')
     },{
-      path: 'products',
-      name: 'products',
-      component: () => import('pages/Seller/Products.vue')
+      path: 'products-by-category/:categoryId',
+      name: 'productsByCategory',
+      props: true,
+      component: () => import('pages/Seller/ProductsByCategory.vue')
     },{
       path: ':id/product-detail',
       name: 'productDetail',

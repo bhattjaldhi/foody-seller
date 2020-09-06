@@ -35,8 +35,14 @@ import EssentialLink from "components/EssentialLink.vue";
 
 const linksData = [
   {
+    title: "Home",
+    caption: "Your personal dashboard",
+    icon: "home",
+    link: "/seller",
+  },
+  {
     title: "Profile",
-    caption: "your shop profile",
+    caption: "Manage profile",
     icon: "person",
     link: "/seller/profile",
   },
@@ -50,7 +56,7 @@ const linksData = [
     title: "Products",
     caption: "Manage your products from here",
     icon: "fastfood",
-    link: "/seller/products",
+    link: "/seller/categories",
   },
   {
     title: "Settings",

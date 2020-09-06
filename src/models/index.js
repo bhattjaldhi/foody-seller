@@ -4,6 +4,11 @@ import {
 import {
   store
 } from 'src/store'
+import {
+  config as ApiConfig
+} from 'src/services'
+
+
 
 export default class Model extends BaseModel {
 
@@ -14,11 +19,7 @@ export default class Model extends BaseModel {
 
   // implement a default request method 
   request(config) {
-    config.headers = {
-      Authorization: `Bearer ${store.state.auth.token}`,
-      Accept: 'application/json'
-    }
-    return this.$http.request(config)
+    return this.$http.request(Object.assign(config, ApiConfig(store)))
   }
 
 }

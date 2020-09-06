@@ -9,7 +9,6 @@ const vuexPersistenceOptions = VuexPersistence({
   key: 'foodyseller'
 })
 
-export let store = null
 
 export default function ( /* { ssrContext } */ ) {
   const Store = new Vuex.Store({
@@ -20,3 +19,5 @@ export default function ( /* { ssrContext } */ ) {
   store = Store
   return Store
 }
+
+export let store = null

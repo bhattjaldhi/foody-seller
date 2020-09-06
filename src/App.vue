@@ -6,7 +6,8 @@
 <script>
 export default {
   name: 'App',
-  mounted(){
+  async mounted(){
+  
   }
 }
 </script>
