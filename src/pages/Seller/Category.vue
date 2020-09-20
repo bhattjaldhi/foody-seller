@@ -7,7 +7,7 @@
             <q-item-section>
               <q-item-label overline>ADD CATEGORY</q-item-label>
               <q-item-label>
-                  <q-input borderless label="Write name here..." dense v-model="input.name"></q-input>
+                <q-input borderless label="Write name here..." dense v-model="input.name"></q-input>
               </q-item-label>
             </q-item-section>
 
@@ -46,8 +46,8 @@ export default {
     return {
       categories: [],
       input: {
-          name: ""
-      }
+        name: "",
+      },
     };
   },
   mounted() {
@@ -57,33 +57,32 @@ export default {
     async getData(done) {
       try {
         let user = this.$store.state.auth.user;
-        this.categories = await Category.where("shop_id", user.shop_id).$get();
+        this.categories = await Category.where("shop_id", user.shop_id)
+          .orderBy("-updated_at")
+          .$get();
       } catch (error) {
         console.error(error);
       }
     },
-    async createCategory(){
-        try {
-            let user = this.$store.state.auth.user;
+    async createCategory() {
+      try {
+        let user = this.$store.state.auth.user;
 
-            this.$q.loading.show();
+        this.$q.loading.show();
 
-            let category = new Category({});
-            category.name = this.input.name;
-            category.shop_id = user.shop_id
-            category.user_id = user.id
-            let res = await category.save()
-            
+        let category = new Category({});
+        category.name = this.input.name;
+        category.shop_id = user.shop_id;
+        category.user_id = user.id;
+        let res = await category.save();
 
-            this.categories.push({...res.data, products_count: 0})
-
-
-        } catch (error) {
-            console.error(error)
-        }finally{
-            this.input.name = ""
-            this.$q.loading.hide()
-        }
+        this.categories.push({ ...res.data, products_count: 0 });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.input.name = "";
+        this.$q.loading.hide();
+      }
     },
     async refresh(done) {
       await this.getData();
