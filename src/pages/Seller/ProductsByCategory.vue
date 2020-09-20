@@ -1,11 +1,11 @@
 <template>
   <q-page>
-    <q-card class="q-ma-md" flat>
+    <q-card class="q-ma-sm" flat>
       <q-pull-to-refresh @refresh="refresh" color="orange-2" bg-color="orange-9" icon="lightbulb">
         <q-list separator padding>
           <q-item>
             <q-item-section>
-              <q-item-label overline>PRODUCTS</q-item-label>
+              <q-item-label overline>{{category.name}}</q-item-label>
             </q-item-section>
 
             <q-item-section side top>
@@ -23,9 +23,13 @@
 
             <q-item-section side>
               <q-item-label>
-                <q-btn flat @click="$refs.addProductDialog.open(product)">
-                  <q-icon name="edit" />
+                <q-btn flat @click="$refs.addProductDialog.open(product)" class="q-mx-sm">
+                  <q-avatar color="blue" text-color="white" size="30px" icon="edit" font-size="10px"/>                
                 </q-btn>
+                <q-btn flat @click="productDelete(index,product)" class="q=mx-sm">
+                  <q-avatar color="red" text-color="white" size="30px" icon="delete" font-size="10px"/>
+                </q-btn>
+
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -39,6 +43,7 @@
 
 <script>
 import Product from "src/models/product";
+import Category from 'src/models/category';
 import AddProductDialog from 'src/components/dialogs/AddProductDialog'
 import common from 'src/mixins/common'
 
@@ -53,9 +58,10 @@ export default {
     return {
       dialog: false,
       products: [],
+      category:null,
       input: {
         name: "",
-        price: 0
+        price: null
       },
     };
   },
@@ -63,6 +69,11 @@ export default {
     this.getData();
   },
   methods: {
+    productDelete(index,product){
+      alert("Are sure you want to delete")
+      product.delete()
+        this.products.splice(index,1)
+    },
     productAdded(product){
       this.products.unshift(product)
     },
@@ -78,6 +89,7 @@ export default {
           "category_id",
           this.categoryId
         ).$get();
+        this.category = await Category.$find(this.categoryId)
       } catch (error) {
         console.error(error);
       }
