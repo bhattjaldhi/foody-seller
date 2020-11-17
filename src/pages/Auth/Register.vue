@@ -5,7 +5,7 @@
         <q-item-label class="flex justify-center text-h5 text-red">Foody Seller</q-item-label>
         <q-form @submit.prevent="login">
           <q-card class="q-mt-md">
-            <q-card-section class="bg-red text-white text-h6">Seller Login</q-card-section>
+            <q-card-section class="bg-red text-white text-h6">Register as a seller</q-card-section>
             <q-card-section>
               <q-input type="number" v-model="input.phone" outlined label="Phone number"></q-input>
               <q-input type="password" class="q-mt-md" v-model="input.password" outlined label="Password"></q-input>

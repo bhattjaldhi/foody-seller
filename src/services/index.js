@@ -2,6 +2,7 @@ import Auth from './modules/auth'
 import Firebase from './modules/firebase'
 
 export const API_BASE = process.env.BASE_API_URL
+export const FCM_BASE_URL = process.env.FIREBASE_BASE_URL;
 
 
 export default function Api(store) {
@@ -25,4 +26,15 @@ export function config(store) {
       'Authorization': `Bearer ${store.state.auth.token }`
     }
   }
+}
+
+
+
+export function firebaseConfig(store) {
+  return {
+    headers: {
+      'content-type': "application/json",
+      Authorization: `key=${process.env.FIREBASE_API_KEY}`
+    }
+  };
 }

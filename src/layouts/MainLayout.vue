@@ -1,15 +1,13 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-red">
+    <q-header elevated class="bg-red" v-if="user">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
+        <q-btn flat
+               dense
+               round
+               icon="menu"
+               aria-label="Menu"
+               @click="leftDrawerOpen = !leftDrawerOpen" />
 
         <q-toolbar-title>{{user.shop.name}}</q-toolbar-title>
       </q-toolbar>
@@ -30,7 +28,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-
 import EssentialLink from "components/EssentialLink.vue";
 
 const linksData = [
@@ -78,5 +75,7 @@ export default {
   computed: {
     ...mapGetters(['user']),
   },
-};
-</script>
+  mounted(){
+    this.$store.dispatch('getUserDetails')
+  }
+};</script>

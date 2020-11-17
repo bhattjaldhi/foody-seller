@@ -1,9 +1,16 @@
+import User from "src/models/users";
+
+
 const state = {
   token: null,
-  exp: null
+  exp: null,
+  user: null
 }
 
 const mutations = {
+  user(state, payload) {
+    state.user = payload
+  },
   login: (state, payload) => {
     state.token = payload.token
     state.user = payload.user
@@ -17,7 +24,19 @@ const mutations = {
 }
 
 const actions = {
-
+  async getUserDetails({
+    commit,
+    state
+  }) {
+    try {
+      let users = await User.include('shop').where('id', state.user.id).$get()
+      if (users.length) {
+        commit('user', users[0])
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }
 
 const getters = {

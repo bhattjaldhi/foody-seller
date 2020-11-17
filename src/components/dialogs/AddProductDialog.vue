@@ -31,7 +31,7 @@ export default {
       product: null,
       input: {
         name: "",
-        price: 0,
+        price: null,
       },
     };
   },
@@ -50,13 +50,12 @@ export default {
     close() {
       this.product = null;
       this.input.name = "";
-      this.input.price = "";
+      this.input.price = null;
       this.dialog = false;
     },
 
     async saveProduct() {
       try {
-
         this.$q.loading.show();
 
         if (this.product) {
@@ -72,9 +71,8 @@ export default {
       }
     },
     async createProduct() {
+      let user = this.$store.state.auth.user;
 
-        let user = this.$store.state.auth.user;
-      
       let product = new Product({});
       product.name = this.input.name;
       product.price = parseInt(this.input.price);

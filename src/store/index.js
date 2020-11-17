@@ -6,7 +6,8 @@ import VuexPersistence from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 const vuexPersistenceOptions = VuexPersistence({
-  key: 'foodyseller'
+  key: 'foodyseller',
+  paths: ['auth']
 })
 
 

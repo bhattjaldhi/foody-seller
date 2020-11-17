@@ -19,6 +19,7 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
+    "firebase": "^8.0.2",
     "moment": "^2.27.0",
     "quasar": "^1.0.0",
     "vue-api-query": "^1.5.2",

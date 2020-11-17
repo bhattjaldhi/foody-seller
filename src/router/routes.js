@@ -21,6 +21,11 @@ const routes = [{
       path: ':id/product-detail',
       name: 'productDetail',
       component: () => import('pages/Seller/ProductDetail.vue')
+    },
+    {
+      path: 'orders',
+      name: 'orders',
+      component: () => import('pages/Seller/Orders.vue')
     },{
       path: 'profile',
       name: 'profile',
