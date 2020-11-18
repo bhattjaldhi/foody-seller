@@ -20,6 +20,7 @@ export default (store) => {
           body: message,
           sound: 'default'
         },
+        priority: 'high',
         data: data,
         webpush: {
           headers: {

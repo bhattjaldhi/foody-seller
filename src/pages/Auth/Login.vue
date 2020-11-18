@@ -61,6 +61,7 @@ export default {
 
       try {
         let response = await this.$api.auth.login(this.input);
+        await this.$store.commit('getUserDetails')
         if (!response.user.notification_key) {
         }
         fcmBus.$emit("register-token", response);

@@ -48,7 +48,7 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn flat>Manage</q-btn>
+          <q-btn flat @click="$router.push({ name: 'orders' })">Manage</q-btn>
         </q-card-actions>
       </q-card>
     </q-pull-to-refresh>
@@ -72,9 +72,9 @@ export default {
     async getProductCount() {
       try {
         this.$q.loading.show();
-        this.shop = await new Shop().products_count(
-          User.current(this.$store).shop.id
-        );
+        let shops = await Shop.where('id', User.current(this.$store).shop.id).$get();
+        if(shops.length)
+          this.shop = shops[0]
       } catch (error) {
         console.error(error);
       } finally {
@@ -82,7 +82,7 @@ export default {
       }
     },
     async refresh(done) {
-      await this.getData();
+      await this.getProductCount();
       done();
     },
   },

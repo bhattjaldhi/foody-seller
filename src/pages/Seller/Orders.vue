@@ -158,12 +158,14 @@ export default {
     },
     viewDetails(order) {},
     async changeStatus(event, order) {
+      this.$q.loading.show()
       let _order = Object.assign(
         Object.create(Object.getPrototypeOf(order)),
         order
       );
       _order.status = event.value;
-
+      await _order.save();
+      
       this.$store.dispatch("updateOrder", _order);
       this.$api.firebase.sendNotification(
         _order.fcm_token,
@@ -171,9 +173,10 @@ export default {
         `Your order status has been updated to ${_order.status}`,
         {
           type: 'UPDATE_ORDER_STATUS',
-          payload: _order
+          payload: {orderId: _order.id, status: _order.status}
         }
       );
+      this.$q.loading.hide()
     },
     async getOrders() {
       this.page++;

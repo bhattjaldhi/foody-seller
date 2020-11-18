@@ -7,6 +7,9 @@
             <span class="text-h6">Settings</span>
           </q-card-section>
           <q-card-section>
+            <q-toggle v-model="input.shop.is_online" @input="changeOnline"></q-toggle>
+          </q-card-section>
+          <q-card-section>
             <q-input
               v-model="input.shop.delivery_charge"
               label="Delivery charge"
@@ -54,14 +57,27 @@ export default {
   computed: {
     ...mapGetters(["user"]),
   },
-
-  mounted() {
+  watch:{
+    user(newVal){
+      this.input = {...newVal}
+    }
+  },
+  async mounted() {
+    this.$q.loading.show()
+    await this.$store.dispatch("getUserDetails");
     this.input = { ...this.user };
+    this.input.shop.is_online = this.input.shop.is_online ? true : false
+    this.$q.loading.hide()
   },
   methods: {
     logout() {
       this.$api.auth.logout();
       this.$router.replace("/");
+    },
+    async changeOnline(value){
+        let shop = await Shop.$find(this.input.shop.id);
+        shop.is_online = value;
+        shop.save();
     },
     async saveSettings() {
       try {
@@ -69,7 +85,6 @@ export default {
         let shop = await Shop.$find(this.input.shop.id);
         shop.delivery_charge = this.input.shop.delivery_charge;
         await shop.save();
-        this.$store.dispatch("getUserDetails");
         this.$q.notify({
           type: "positive",
           message: "Settings have been updated successfully",

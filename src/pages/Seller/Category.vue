@@ -12,7 +12,6 @@
           <q-item v-for="(category, index) in categories" :key="index" :to="`products-by-category/${category.id}`">
             <q-item-section>
               <q-item-label>{{category.name}}</q-item-label>
-              <q-item-label caption>{{category.products_count}} products</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
