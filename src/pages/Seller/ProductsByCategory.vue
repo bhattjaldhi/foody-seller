@@ -36,7 +36,8 @@
 
             <q-item-section side>
               <q-item-label>
-                <q-toggle v-model="product.is_available" @input="onChangeAvailable($event, product)"></q-toggle>
+              {{product.is_available}}
+                <q-toggle v-model="product.is_available" @input="onChangeAvailable($event, product)" true-value="1" false-value="0"></q-toggle>
                 <q-btn flat @click="$refs.addProductDialog.open(product)">
                   <q-icon name="edit" />
                 </q-btn>
@@ -52,6 +53,7 @@
       ref="addProductDialog"
       @onProductAdd="productAdded"
       @onProductUpdate="productUpdated"
+      @onProductDelete="deleteProduct"
     ></AddProductDialog>
   </q-page>
 </template>
@@ -90,6 +92,13 @@ export default {
       this.products[foundIndex].name = product.name;
       this.products[foundIndex].price = product.price;
     },
+    deleteProduct (id) {
+      let _products = [...this.products]
+      let foundIndex = _products.findIndex((x) => x.id === id);
+      _products.splice(foundIndex, 1)
+      this.products= _products
+
+    },
     async onChangeAvailable(value, product){
       product.is_available = value
       await product.save()
@@ -103,10 +112,7 @@ export default {
           .orderBy("-updated_at")
           .$get();
 
-        this.products = products.map((x) => {
-          x.is_available = x.is_available ? true : false;
-          return x;
-        });
+        this.products = products
       } catch (error) {
         console.error(error);
       } finally {

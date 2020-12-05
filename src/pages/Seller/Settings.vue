@@ -1,4 +1,4 @@
-<template>
+0<template>
   <q-page>
     <div class="q-pa-md">
       <q-form @submit.prevent="saveSettings">
@@ -7,7 +7,7 @@
             <span class="text-h6">Settings</span>
           </q-card-section>
           <q-card-section>
-            <q-toggle v-model="input.shop.is_online" @input="changeOnline"></q-toggle>
+            <q-toggle v-model="input.shop.is_online" true-value="1" false-value="0" label="Online" @input="changeOnline"></q-toggle>
           </q-card-section>
           <q-card-section>
             <q-input
@@ -66,7 +66,6 @@ export default {
     this.$q.loading.show()
     await this.$store.dispatch("getUserDetails");
     this.input = { ...this.user };
-    this.input.shop.is_online = this.input.shop.is_online ? true : false
     this.$q.loading.hide()
   },
   methods: {

@@ -14,6 +14,7 @@
         </q-form>
       </q-card-section>
       <q-card-actions align="right">
+        <q-btn color="primary" no-caps outline @click="deleteProduct">Delete</q-btn>
         <q-btn color="primary" no-caps outline @click="saveProduct">Save</q-btn>
       </q-card-actions>
     </q-card>
@@ -32,6 +33,7 @@ export default {
       input: {
         name: "",
         price: null,
+        is_available: true
       },
     };
   },
@@ -66,6 +68,7 @@ export default {
       } catch (error) {
         console.error(error);
       } finally {
+        this.product = null
         this.$q.loading.hide();
         this.close();
       }
@@ -79,6 +82,7 @@ export default {
       product.category_id = this.categoryId;
       product.shop_id = user.shop_id;
       product.user_id = user.id;
+      product.is_available = 1;
       let res = await product.save();
       this.$emit("onProductAdd", res.data);
     },
@@ -89,6 +93,15 @@ export default {
       let res = await product.save();
       this.$emit("onProductUpdate", res.data);
     },
+    async deleteProduct() {
+      this.$q.loading.show()
+      let product = await Product.$find(this.product.id);
+      await product.delete()
+      this.$emit("onProductDelete", this.product.id)
+      this.$q.loading.hide()
+      this.product = null
+      this.close();
+    }
   },
 };
 </script>
