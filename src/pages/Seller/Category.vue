@@ -11,7 +11,7 @@
 
           <q-item v-for="(category, index) in categories" :key="index" :to="`products-by-category/${category.id}`">
             <q-item-section>
-              <q-item-label>{{category.name}}</q-item-label>
+              <q-item-label class="text-bold">{{category.name}}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -39,7 +39,7 @@ export default {
     async getData(done) {
       this.$q.loading.show();
       try {
-        this.categories = await Category.orderBy('name').$get();
+        this.categories = await Category.$get();
       } catch (error) {
         console.error(error);
       }finally{
