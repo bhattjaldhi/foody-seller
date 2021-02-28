@@ -7,7 +7,7 @@
             <span class="text-h6">Settings</span>
           </q-card-section>
           <q-card-section>
-            <q-toggle v-model="input.shop.is_online" true-value="1" false-value="0" label="Online" @input="changeOnline"></q-toggle>
+            <q-toggle v-model.number="input.shop.is_online" :true-value="1" :false-value="0" label="Online" @input="changeOnline"></q-toggle>
           </q-card-section>
           <q-card-section>
             <q-input

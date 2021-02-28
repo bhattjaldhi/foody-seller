@@ -3,7 +3,7 @@
     <q-page-container>
       <q-page class="q-ma-md">
         <q-item-label class="flex justify-center text-h5 text-red"
-          >Foody Seller</q-item-label
+          >Jay ambe restaurant</q-item-label
         >
         <q-form @submit.prevent="login">
           <q-card class="q-mt-md">

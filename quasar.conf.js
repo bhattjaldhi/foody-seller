@@ -112,9 +112,9 @@ module.exports = function ( /* ctx */ ) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `Foody`,
-        short_name: `Foody`,
-        description: `FOod Delivery`,
+        name: `Jay ambe seller`,
+        short_name: `Jay ambe seller`,
+        description: `Jay ambe application for seller`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

@@ -17,7 +17,7 @@
 
             <q-item-section side>
               <div class="row items-center text-primary">
-                {{ formatPrice(order.total) }}
+                {{ formatPrice(parseInt(order.total)) }}
               </div>
             </q-item-section>
           </template>
@@ -33,7 +33,7 @@
                   color="primary"
                   @click="viewLocation(order)"
                 >
-                  View location
+                  User location
                 </q-btn>
               </q-item-section>
 
@@ -94,11 +94,13 @@
       @click="getOrders"
       >Load more</q-btn
     >
+    <OrderDetailDialog ref="refOrderDetailDialog" />
   </div>
 </template>
 
 <script>
 import Orders from "src/models/order";
+import OrderDetailDialog from "src/components/dialogs/OrderDetailDialog";
 import moment from "moment";
 import CommonMixin from "src/mixins/common";
 import { mapGetters } from "vuex";
@@ -106,36 +108,39 @@ import { mapGetters } from "vuex";
 let statuses = [
   {
     label: "Pending",
-    value: "PENDING",
+    value: "PENDING"
   },
   {
     label: "Ready",
-    value: "READY",
+    value: "READY"
   },
   {
     label: "On the way",
-    value: "ON_THE_WAY",
+    value: "ON_THE_WAY"
   },
   {
     label: "Delivered",
-    value: "DELIVERED",
-  },
+    value: "DELIVERED"
+  }
 ];
 
 export default {
   mixins: [CommonMixin],
+  components: {
+    OrderDetailDialog
+  },
   data() {
     return {
       page: 0,
       limit: 10,
       meta: null,
       loadingLoadMore: false,
-      statuses: statuses,
+      statuses: statuses
     };
   },
 
   computed: {
-    ...mapGetters(["user", "orders"]),
+    ...mapGetters(["user", "orders"])
   },
 
   mounted() {
@@ -153,30 +158,46 @@ export default {
     orderItems(order) {
       return JSON.parse(order.items);
     },
-    viewLocation(order) {
-      window.open("geo:" + order.user_latitude + "," + order.user_longitude);
+    async viewLocation(order) {
+      try {
+        let position = await this.getCurrentPosition();
+        let url = "https://maps.google.com/maps?";
+        url += `saddr=${position.coords.latitude +
+          "," +
+          position.coords.longitude}&`;
+        url += `daddr=${order.user_latitude + "," + order.user_longitude}&`;
+        window.open(url);
+      } catch (error) {
+        console.error(error.message);
+        this.$q.notify({
+          type:'negative',
+          message: 'Please enable location'
+        })
+      }
     },
-    viewDetails(order) {},
+    viewDetails(order) {
+      this.$refs.refOrderDetailDialog.open(order);
+    },
     async changeStatus(event, order) {
-      this.$q.loading.show()
+      this.$q.loading.show();
       let _order = Object.assign(
         Object.create(Object.getPrototypeOf(order)),
         order
       );
       _order.status = event.value;
       await _order.save();
-      
+
       this.$store.dispatch("updateOrder", _order);
       this.$api.firebase.sendNotification(
         _order.fcm_token,
         `Foody : ${this.user.shop.name}`,
         `Your order status has been updated to ${_order.status}`,
         {
-          type: 'UPDATE_ORDER_STATUS',
-          payload: {orderId: _order.id, status: _order.status}
+          type: "UPDATE_ORDER_STATUS",
+          payload: { orderId: _order.id, status: _order.status }
         }
       );
-      this.$q.loading.hide()
+      this.$q.loading.hide();
     },
     async getOrders() {
       this.page++;
@@ -205,10 +226,9 @@ export default {
         this.loadingLoadMore = false;
         this.$q.loading.hide();
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

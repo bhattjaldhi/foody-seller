@@ -77,10 +77,22 @@ export default {
       this.dialog = true;
       this.order = order;
     },
-    viewLocation() {
-      window.open(
-        "geo:" + this.order.user_latitude + "," + this.order.user_longitude
-      );
+    async viewLocation() {
+      try {
+        let position = await this.getCurrentPosition();
+        let url = "https://maps.google.com/maps?";
+        url += `saddr=${position.coords.latitude +
+          "," +
+          position.coords.longitude}&`;
+        url += `daddr=${this.order.user_latitude + "," + this.order.user_longitude}&`;
+        window.open(url);
+      } catch (error) {
+        console.error(error.message);
+        this.$q.notify({
+          type:'negative',
+          message: 'Please enable location'
+        })
+      }
     },
   },
 };
