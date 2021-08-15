@@ -44,7 +44,7 @@ export default ({ app, router, store, Vue }) => {
         id: "new_order",
         name: "New Order",
         importance: 5,
-        sound: 'sound',
+        'android_sound': 'sound',
         vibration: true,
       });
     },

@@ -18,7 +18,8 @@ export default (store) => {
         notification: {
           title: title,
           body: message,
-          sound: 'default'
+          sound: 'sound',
+          'android_sound': 'sound'
         },
         priority: 'high',
         data: data,
